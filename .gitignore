@@ -1,0 +1,4 @@
+pynecone.db
+.web
+errors.txt
+*.pyc
