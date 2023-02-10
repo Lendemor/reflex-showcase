@@ -1,7 +1,7 @@
 """Welcome to Pynecone! This file outlines the steps to create a basic app."""
 from pcconfig import config
 from functools import partial
-
+import json
 import pynecone as pc
 
 title = "Pynecone Showcase"
@@ -15,6 +15,10 @@ class State(pc.State):
     drawer_show: bool = False
     modal_show: bool = False
     popover_show: bool = False
+
+    @pc.var
+    def show_args(self):
+        return json.dumps(self.get_query_params())
 
 
 def case(label_, item):
@@ -391,34 +395,63 @@ def basic_showcase():
     )
 
 
-def index():
+def full_showcase():
+    return pc.tabs(
+        items=[
+            ("Basic Components", basic_showcase()),
+            (
+                "Complex Components",
+                pc.box(
+                    "TODO: add 'complex components', ",
+                    "meaning components built from ",
+                    "assembling basic components together",
+                ),
+            ),
+            (
+                "Routes",
+                pc.hstack(
+                    pc.link("page/[arg]", href="page/1"),
+                    pc.link("page/[arg]/[...slug]", href="page/1/2/3"),
+                ),
+            ),
+        ],
+        width="30vw",
+        height="70vh",
+    )
+
+
+def frame(body):
     return pc.center(
         pc.vstack(
             pc.hstack(
                 pc.heading(title, margin="15px"),
                 pc.icon(tag="SunIcon", on_click=pc.toggle_color_mode),
             ),
-            pc.tabs(
-                items=[
-                    ("Basic Components", basic_showcase()),
-                    (
-                        "Complex Components",
-                        pc.box(
-                            "TODO: add 'complex components', ",
-                            "meaning components built from ",
-                            "assembling basic components together",
-                        ),
-                    ),
-                ],
-                width="30vw",
-                height="70vh",
-            ),
+            body,
         ),
         height="100vh",
     )
 
 
+def index():
+    return frame(full_showcase())
+
+
+def index2():
+    return frame(
+        pc.vstack(
+            pc.hstack(pc.link(pc.icon(tag="ArrowLeftIcon"), "Return", href="/")),
+            pc.text(
+                "You can change the parameters in the url, they will show up on the page"
+            ),
+            pc.text(State.show_args),
+        )
+    )
+
+
 # Add state and page to the app.
 app = pc.App(state=State)
-app.add_page(index, image="/bl.png")
+app.add_page(index)
+app.add_page(index2, route="page/[arg]")
+app.add_page(index2, route="page/[arg]/[...slug]")
 app.compile()
