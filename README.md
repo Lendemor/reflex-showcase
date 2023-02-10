@@ -24,3 +24,7 @@ It's purpose is to be used by contributors to [Pynecone](https://github.com/pyne
 ### with something else
 
 Send me the steps on how you'd set it up, and I'll gladly add it
+
+## Preview
+
+![A preview of Pynecone Showcase](https://github.com/lendemor/pynecone-showcase/master/preview.png)
