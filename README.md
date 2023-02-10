@@ -13,9 +13,9 @@ As much as possible, this repo will try to avoid using workaround, so as not to 
 
 # How to use?
 
-## Standalone
+## I) Standalone
 
-### With virtualenvwrapper
+### A) With virtualenvwrapper
 
 1. `git clone git@github.com:Lendemor/pynecone-showcase.git`
 1. `mkvirtualenv pynecone-showcase`
@@ -25,19 +25,24 @@ As much as possible, this repo will try to avoid using workaround, so as not to 
 
 > For more complete steps on running Pynecone, visit the official repo !
 
-### With something else
+### B) With something else
 
 Send me the steps on how you'd set it up, and I'll gladly add it
 
-## Inside pynecone main project
-### Unix system
+## II) Inside pynecone main project
+### A) Unix system
+
 Steps:
-- `cd /your/workspace/`
+- `cd ~/workspace/`
 - `git clone git+https://github.com/pynecone-io/pynecone.git`
 - `git clone git@github.com:Lendemor/pynecone-showcase.git`
-- `cd pynecone; mkdir -p "examples/test"; poetry run pc init`
-- `ln -sf pynecone-showcase/pynecone-showcase/pynecone-showcase.py pynecone/examples/test/test/test.py`
+- `cd pynecone`
+- `mkdir -p "examples/showcase"`
+- `cd examples/showcase`
+- `poetry run pc init`
+- `cd ~/workspace/`
+- ```ln -sf `pwd`/pynecone-showcase/pynecone_showcase/pynecone_showcase.py pynecone/examples/showcase/showcase/showcase.py```
 
-## Preview
+# Preview
 
 ![A preview of Pynecone Showcase](https://github.com/Lendemor/pynecone-showcase/raw/master/preview.png)
