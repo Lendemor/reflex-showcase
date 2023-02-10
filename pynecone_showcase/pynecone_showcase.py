@@ -1,5 +1,6 @@
 """Welcome to Pynecone! This file outlines the steps to create a basic app."""
 from pcconfig import config
+from functools import partial
 
 import pynecone as pc
 
@@ -10,6 +11,10 @@ class State(pc.State):
     """The app state."""
 
     show: bool = False
+    alertdialog_show: bool = False
+    drawer_show: bool = False
+    modal_show: bool = False
+    popover_show: bool = False
 
 
 def case(label_, item):
@@ -250,9 +255,10 @@ def feedback():
                     pc.skeleton_circle(),
                     pc.skeleton(height="10px", width="100px", is_loaded=False),
                 ),
-                pc.skeleton_text(no_of_lines=4, is_loaded=False),
+                pc.skeleton_text(no_of_lines=3, is_loaded=False, width="150px"),
             ),
         ),
+        case("Spinner", pc.center(pc.spinner())),
     )
 
 
@@ -278,11 +284,87 @@ def media():
 
 def overlay():
     return pc.vstack(
-        case("", ""),
-        case("", ""),
-        case("", ""),
-        case("", ""),
-        case("", ""),
+        case(
+            "AlertDialog",
+            pc.center(
+                pc.button(
+                    "Open AlertDialog",
+                    on_click=partial(State.set_alertdialog_show, True),
+                ),
+                pc.alert_dialog(
+                    header="Confirm?",
+                    body="Are you suuure you want to confirm? No take back!",
+                    footer=pc.button(
+                        "Confirm", on_click=partial(State.set_alertdialog_show, False)
+                    ),
+                    on_close=partial(State.set_alertdialog_show, False),
+                    is_open=State.alertdialog_show,
+                ),
+            ),
+        ),
+        case(
+            "Drawer",
+            pc.center(
+                pc.button("Open Drawer", on_click=partial(State.set_drawer_show, True)),
+                pc.drawer(
+                    header="Big Drawer",
+                    body="Yes it's a drawer, what else did you expect?",
+                    footer=pc.button(
+                        "I wasted my time",
+                        on_click=partial(State.set_drawer_show, False),
+                    ),
+                    on_close=partial(State.set_drawer_show, False),
+                    is_open=State.drawer_show,
+                ),
+            ),
+        ),
+        case(
+            "Menu",
+            pc.menu(
+                button=pc.icon(tag="HamburgerIcon"),
+                items=[
+                    pc.menu_item("Menu Item 1"),
+                    pc.menu_item("Menu Item 2"),
+                    pc.menu_divider(),
+                    pc.menu_item("Menu Item 3"),
+                ],
+            ),
+        ),
+        case(
+            "Modal",
+            pc.center(
+                pc.button("Open Modal", on_click=partial(State.set_modal_show, True)),
+                pc.modal(
+                    header="A Modal",
+                    body="Body of the Modal",
+                    footer=pc.button(
+                        "Confirm Modal", on_click=partial(State.set_modal_show, False)
+                    ),
+                    on_close=partial(State.set_modal_show, False),
+                    is_open=State.modal_show,
+                ),
+            ),
+        ),
+        case(
+            "Popover",
+            pc.center(
+                pc.popover(
+                    trigger=pc.button(
+                        "Open Popover", on_click=partial(State.set_popover_show, True)
+                    ),
+                    header="Popover header",
+                    body="It's a popover, nothing to see.",
+                    footer="Popover footer",
+                    use_close_button=True,
+                    on_close=partial(State.set_popover_show, False),
+                    is_open=State.popover_show,
+                ),
+            ),
+        ),
+        case(
+            "Tooltip",
+            pc.tooltip(pc.text("Some text"), label="with a tooltip"),
+        ),
     )
 
 
@@ -338,5 +420,5 @@ def index():
 
 # Add state and page to the app.
 app = pc.App(state=State)
-app.add_page(index)
+app.add_page(index, image="/bl.png")
 app.compile()
