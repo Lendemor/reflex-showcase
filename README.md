@@ -1,4 +1,4 @@
-## What is it?
+# What is it?
 
 This is just a simple project showcasing all the pynecone components.
 
@@ -11,9 +11,11 @@ It's purpose is to be used by contributors to [Pynecone](https://github.com/pyne
 
 As much as possible, this repo will try to avoid using workaround, so as not to hide any potential problem.
 
-## How to use?
+# How to use?
 
-### with virtualenvwrapper
+## Standalone
+
+### With virtualenvwrapper
 
 1. `git clone git@github.com:Lendemor/pynecone-showcase.git`
 1. `mkvirtualenv pynecone-showcase`
@@ -23,9 +25,18 @@ As much as possible, this repo will try to avoid using workaround, so as not to 
 
 > For more complete steps on running Pynecone, visit the official repo !
 
-### with something else
+### With something else
 
 Send me the steps on how you'd set it up, and I'll gladly add it
+
+## Inside pynecone main project
+### Unix system
+Steps:
+- `cd /your/workspace/`
+- `git clone git+https://github.com/pynecone-io/pynecone.git`
+- `git clone git@github.com:Lendemor/pynecone-showcase.git`
+- `cd pynecone; mkdir -p "examples/test"; poetry run pc init`
+- `ln -sf pynecone-showcase/pynecone-showcase/pynecone-showcase.py pynecone/examples/test/test/test.py`
 
 ## Preview
 
