@@ -27,4 +27,4 @@ Send me the steps on how you'd set it up, and I'll gladly add it
 
 ## Preview
 
-![A preview of Pynecone Showcase](https://github.com/lendemor/pynecone-showcase/master/preview.png)
+![A preview of Pynecone Showcase](https://github.com/Lendemor/pynecone-showcase/raw/master/preview.png)
