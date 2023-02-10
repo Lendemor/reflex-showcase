@@ -15,7 +15,7 @@ As much as possible, this repo will try to avoid using workaround, so as not to 
 
 ### with virtualenvwrapper
 
-1. `git clone `
+1. `git clone git@github.com:Lendemor/pynecone-showcase.git`
 1. `mkvirtualenv pynecone-showcase`
 2. `pip install git+https://github.com/pynecone-io/pynecone.git@main`
 4. `pc init`
