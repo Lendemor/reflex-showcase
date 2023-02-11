@@ -1,10 +1,18 @@
 """Welcome to Pynecone! This file outlines the steps to create a basic app."""
 from pcconfig import config
 from functools import partial
+from collections import namedtuple
 import json
 import pynecone as pc
 
 title = "Pynecone Showcase"
+
+Route = namedtuple("Route", ["route", "link"])
+routes = [
+    Route("page/[arg]", "page/1"),
+    Route("page/[arg]/[...slug]", "page/1/2/3"),
+    Route("page2/[my_arg]", "page2/1"),
+]
 
 
 class State(pc.State):
@@ -16,6 +24,8 @@ class State(pc.State):
     modal_show: bool = False
     popover_show: bool = False
 
+
+class RouteState(State):
     @pc.var
     def show_args(self):
         return json.dumps(self.get_query_params())
@@ -272,7 +282,13 @@ def media():
             "Avatar",
             pc.tooltip(pc.avatar(name=title), label=title),
         ),
-        case("Image", pc.image(src="/black.png")),
+        case(
+            "Image",
+            pc.image(
+                src="/black.png",
+                # fallback="add black.png in your assets folder if image doesn't show up",
+            ),
+        ),
         case(
             "Icon",
             pc.hstack(
@@ -410,8 +426,10 @@ def full_showcase():
             (
                 "Routes",
                 pc.hstack(
-                    pc.link("page/[arg]", href="page/1"),
-                    pc.link("page/[arg]/[...slug]", href="page/1/2/3"),
+                    # foreach doesn't work
+                    # pc.foreach(routes, lambda route: pc.link(route.route, href=route.link))
+                    # unpacking the list comprehension work
+                    *[pc.link(route.route, href=route.link) for route in routes]
                 ),
             ),
         ],
@@ -444,7 +462,7 @@ def index2():
             pc.text(
                 "You can change the parameters in the url, they will show up on the page"
             ),
-            pc.text(State.show_args),
+            pc.text(RouteState.show_args),
         )
     )
 
@@ -452,6 +470,6 @@ def index2():
 # Add state and page to the app.
 app = pc.App(state=State)
 app.add_page(index)
-app.add_page(index2, route="page/[arg]")
-app.add_page(index2, route="page/[arg]/[...slug]")
+for route in routes:
+    app.add_page(index2, route=route.route)
 app.compile()
