@@ -7,7 +7,7 @@ The full page fit in a single file, you can either:
 - copy the file `pynecone_showcase.py`
 
 
-It's purpose is to be used by contributors to [Pynecone](https://github.com/pynecone-io/pynecone.git) so they can easily check if any of their PR has detrimental impact on some components.
+It's purpose is to be used by contributors to [Pynecone](https://github.com/pynecone-io/pynecone) so they can easily check if any of their PR has detrimental impact on some components.
 
 As much as possible, this repo will try to avoid using workaround, so as not to hide any potential problem.
 
