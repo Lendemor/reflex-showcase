@@ -1,4 +1,7 @@
-pynecone.db
-.web
-errors.txt
+*.py[cod]
 *.pyc
+.web
+__pycache__/
+errors.txt
+pynecone.db
+reflex.db

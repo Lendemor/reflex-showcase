@@ -2,7 +2,7 @@ import reflex as rx
 
 
 config = rx.Config(
-    app_name="pynecone_showcase",
+    app_name="reflex_showcase",
     db_url="sqlite:///pynecone.db",
     env=rx.Env.DEV,
     frontend_port=3002,

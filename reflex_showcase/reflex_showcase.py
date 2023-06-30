@@ -14,6 +14,10 @@ routes = [
     Route("page2/[my_arg]", "page2/1"),
 ]
 
+WIDTH="80vw"
+SUBWIDTH="50vw"
+HEIGHT="70vh"
+FULL_HEIGHT="100vh"
 
 class State(rx.State):
     """The app state."""
@@ -33,13 +37,17 @@ class RouteState(State):
 
 def case(label_, item):
     return rx.hstack(
-        label(label_), rx.spacer(), rx.center(item, width="12vw"), width="22vw"
+        label(label_), rx.spacer(), rx.center(item, width="20vw"), width=SUBWIDTH
     )
 
 
 def label(text):
     return rx.center(rx.text(text), width="8vw")
 
+md_example = """##Some markdown
+        
+some text
+"""
 
 def typography():
     return rx.vstack(
@@ -49,7 +57,7 @@ def typography():
             "rx.Span",
             rx.box(rx.span("Some", color="red"), rx.span("span", color="blue")),
         ),
-        case("rx.Markdown", rx.markdown("##Some markdown")),
+        case("rx.Markdown", rx.markdown(md_example)),
     )
 
 
@@ -176,6 +184,12 @@ def navigation():
         ),
     )
 
+code_fib = """def fib(n):
+    if n <= 1:
+        return n
+    else:
+        return(fib(n-1) + fib(n-2))
+"""
 
 def data_display():
     list_ = ["Example 1", "Example 2"]
@@ -184,12 +198,9 @@ def data_display():
         case(
             "CodeBlock",
             rx.code_block(
-                """def fib(n):
-    if n <= 1:
-        return n
-    else:
-        return(fib(n-1) + fib(n-2))""",
+                code_fib,
                 language="python",
+                can_copy=True,
                 show_line_numbers=True,
             ),
         ),
@@ -205,7 +216,7 @@ def data_display():
         ),
         case(
             "DataTable",
-            rx.data_table(data=[[1, 2], ["A", "B"]], sort=True),
+            rx.data_table(data=[[1, 2], ["A", "B"]], columns=["a", "b"]),
         ),
         case(
             "List",
@@ -239,7 +250,7 @@ def data_display():
                 caption="BIG CAPTION",
                 headers=["Name", "Age"],
                 rows=[("John", 30), ("Jeanne", "50")],
-                # footers=["F1", "F2"],
+                footers=["F1", "F2"],
             ),
         ),
     )
@@ -292,11 +303,11 @@ def media():
         case(
             "Icon",
             rx.hstack(
-                rx.icon(tag="MoonIcon"),
-                rx.icon(tag="AddIcon"),
-                rx.icon(tag="SunIcon"),
-                rx.icon(tag="ArrowForwardIcon"),
-                rx.icon(tag="StarIcon"),
+                rx.icon(tag="moon"),
+                rx.icon(tag="add"),
+                rx.icon(tag="sun"),
+                rx.icon(tag="arrow_forward"),
+                rx.icon(tag="star"),
             ),
         ),
     )
@@ -341,7 +352,7 @@ def overlay():
         case(
             "Menu",
             rx.menu(
-                button=rx.icon(tag="HamburgerIcon"),
+                button=rx.icon(tag="hamburger"),
                 items=[
                     rx.menu_item("Menu Item 1"),
                     rx.menu_item("Menu Item 2"),
@@ -393,7 +404,7 @@ def other():
 
 
 def basic_showcase():
-    return rx.accordion(
+    return rx.tabs(
         items=[
             ("Typography", typography()),
             ("Forms", forms()),
@@ -407,7 +418,8 @@ def basic_showcase():
             ("Overlay", overlay()),
             ("Other", other()),
         ],
-        width="30vw",
+        allow_toggle=True,
+        width=WIDTH,
     )
 
 
@@ -433,8 +445,8 @@ def full_showcase():
                 ),
             ),
         ],
-        width="30vw",
-        height="70vh",
+        width=WIDTH,
+        height=HEIGHT,
     )
 
 
@@ -443,11 +455,11 @@ def frame(body):
         rx.vstack(
             rx.hstack(
                 rx.heading(title, margin="15px"),
-                rx.icon(tag="SunIcon", on_click=rx.toggle_color_mode),
+                rx.icon(tag="sun", on_click=rx.toggle_color_mode),
             ),
             body,
         ),
-        height="100vh",
+        height=FULL_HEIGHT,
     )
 
 
@@ -458,7 +470,7 @@ def index():
 def index2():
     return frame(
         rx.vstack(
-            rx.hstack(rx.link(rx.icon(tag="ArrowLeftIcon"), "Return", href="/")),
+            rx.hstack(rx.link(rx.icon(tag="arrow_left"), "Return", href="/")),
             rx.text(
                 "You can change the parameters in the url, they will show up on the page"
             ),
@@ -469,7 +481,7 @@ def index2():
 
 # Add state and page to the app.
 app = rx.App(state=State)
-app.add_page(index)
+app.add_page(index, title="Reflex Showcase")
 for route in routes:
     app.add_page(index2, route=route.route)
 app.compile()
